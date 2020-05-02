@@ -47,6 +47,13 @@ public class praktek extends JFrame{
             Statement stmt = conn.createStatement();
             stmt.execute(sql) ;
             JOptionPane.showMessageDialog(null,"berhasil");
+            String x = JOptionPane.showInputDialog("Ingin Membeli Barang lagi ? (Y/N)") ;
+            if(x.equals("Y")){
+
+            }else{
+                JOptionPane.showMessageDialog(null,"Terima Kasih Sudah membeli");
+                dispose();
+            }
         }catch(Exception a){
             JOptionPane.showMessageDialog(null,a.getMessage());
         }
@@ -62,6 +69,12 @@ public class praktek extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 simpan();
+            }
+        });
+        kembaliButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
             }
         });
     }

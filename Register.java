@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
+import java.sql.*;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -13,6 +13,11 @@ public class Register extends JFrame {
     private JTextField texttl;
     private JTextField texthp;
     private JTextField textalamat;
+    private JComboBox comboBox1;
+    /*
+
+
+     */
 
     final String DB_Driver = "com.mysql.jdbc.Driver";
     final String DB_URL ="jdbc:mysql://localhost/klinik" ;
@@ -29,14 +34,22 @@ private void kosongkan(){
         Random rand = new Random() ;
         int angka = rand.nextInt(100);
         String user = "user"+angka;
-        String sql = "INSERT INTO pasien VALUES('" + textname.getText() + "' , '" +texttl.getText() + "' , '" + texthp.getText()
-                + "' , '" + user + "' , '" + textalamat.getText() + "')" ;
+        String kel = (String) comboBox1.getSelectedItem();
+        String text1 = textname.getText() ;
+        String text2 = texttl.getText() ;
+        String text3 = kel ;
+        String text4 = texthp.getText() ;
+        String text5 = textalamat.getText() ;
+        String sql = "INSERT INTO pasien VALUES('" + text1 + "' , '" +text2 + "' , '"+ kel +"','" + text4
+                + "' , '" + text5 + "','"+user+"')" ;
+        boolean cek = false ;
         try {
             Class.forName(DB_Driver) ;
             Connection conn = DriverManager.getConnection(DB_URL,User,pass) ;
             Statement stmt = conn.createStatement();
             stmt.execute(sql) ;
             JOptionPane.showMessageDialog(null,"Data Berhasil di simpan");
+            cek = true ;
             conn.close();
             stmt.close();
             kosongkan();
@@ -44,6 +57,16 @@ private void kosongkan(){
         }catch (Exception a){
 
         }
+
+
+         if(cek){
+             JOptionPane.showMessageDialog(null, "Nama :" + text1 + "\n"
+             + "Tanggal Lahir :"  + text2 + "\n"+ "Jenis Kelamin :" + text3 +"\n" +
+                     "No Hp :" + text4 + "\n" + "Alamat :" + text5 +"\n Id_User :" + user
+             );
+         }else{
+           JOptionPane.showMessageDialog(null , "Maaf terjadi kesalahan ");
+         }
     }
 
     public Register() {
@@ -54,7 +77,7 @@ private void kosongkan(){
             @Override
             public void actionPerformed(ActionEvent e) {
   simpan();
-  System.exit(0);
+  dispose();
             }
         });
     }

@@ -23,6 +23,7 @@ public class klinik extends JFrame{
     ResultSet rs ;
 
 
+
     public klinik() {
 
         DefaultTableModel model = new DefaultTableModel();
@@ -83,6 +84,35 @@ public class klinik extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
+            }
+        });
+
+        Layanan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean cek = false;
+                while(!cek) {
+                    String user = JOptionPane.showInputDialog("Masukan User Id Anda ");
+                    try {
+                        String sql = "SELECT * FROM pasien WHERE id_user = '" + user + "'";
+                        Class.forName(DB_Driver);
+                        Connection conn = DriverManager.getConnection(DB_URL, User, pass);
+                        Statement stmt = conn.createStatement();
+                        ResultSet rs = stmt.executeQuery(sql);
+                        if(rs.next()){
+                            JOptionPane.showMessageDialog(null,"Data Pasien telah terdaftar ");
+                            cek = true ;
+                            String nama = rs.getString("nama");
+                            layanan layanan2 = new layanan(user ,nama );
+                            layanan2.setVisible(true);
+                        }else{
+                            JOptionPane.showMessageDialog(null,"Data Pasien tidak terdaftar silahkan Registrasi");
+                            cek = true ;
+                        }
+                    } catch (Exception a){
+
+                    }
+                }
             }
         });
     }
